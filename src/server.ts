@@ -1,13 +1,5 @@
-import { AlbumController, ArtistController, SearchController, SongController } from '#modules/index'
-import { PlaylistController } from '#modules/playlists/controllers'
-import { App } from './app'
+import { createApp } from './app'
 
-const app = new App([
-  new SearchController(),
-  new SongController(),
-  new AlbumController(),
-  new ArtistController(),
-  new PlaylistController()
-]).getApp()
-
-export default app
+// Bun (`bun run`/`bun dist/server.js`) and Cloudflare Workers (via wrangler.toml) both auto-serve a
+// default export that exposes `fetch`, so this file only needs to hand one back — no explicit listen call.
+export default createApp()

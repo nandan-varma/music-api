@@ -8,7 +8,11 @@
     "rootDir": "./src",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "paths": { "#modules/*": ["src/modules/*"], "#common/*": ["src/common/*"] },
+    "paths": {
+      "#lib/*": ["src/lib/*"],
+      "#schemas/*": ["src/schemas/*"],
+      "#modules/*": ["src/modules/*"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
