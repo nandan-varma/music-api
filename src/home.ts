@@ -23,11 +23,11 @@ const page = (): string => `<!doctype html>
     <meta charset="utf-8" />
     <meta name="description" content="${DESCRIPTION}" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://saavn.dev/" />
+    <meta property="og:url" content="https://saavn-api.nandanvarma.com/" />
     <meta property="og:title" content="${TITLE}" />
     <meta property="og:description" content="${DESCRIPTION}" />
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://saavn.dev/" />
+    <meta property="twitter:url" content="https://saavn-api.nandanvarma.com/" />
     <meta property="twitter:title" content="${TITLE}" />
     <meta property="twitter:description" content="${DESCRIPTION}" />
     <meta property="og:image" content="https://raw.githubusercontent.com/sumitkolhe/jiosaavn-api/main/assets/preview.jpg" />
