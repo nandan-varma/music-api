@@ -31,7 +31,12 @@ export const JioSaavnEndpoint = {
     byId: 'playlist.getDetails',
     byLink: 'webapi.get'
   },
-  trending: 'content.getTrending'
+  radio: {
+    featured: 'webradio.createFeaturedStation',
+    artist: 'webradio.createArtistStation'
+  },
+  trending: 'content.getTrending',
+  charts: 'content.getCharts'
 } as const
 
 /** Rotated per request so JioSaavn doesn't rate-limit a single fingerprint. */

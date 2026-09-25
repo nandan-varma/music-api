@@ -1,4 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
+import { getArtistRadio } from '#modules/radio/radio.service'
+import { SongSchema } from '#modules/songs/songs.schema'
 import { ArtistAlbumsSchema, ArtistSchema, ArtistSongsSchema } from './artists.schema'
 import { getArtistAlbums, getArtistById, getArtistByLink, getArtistSongs } from './artists.service'
 
@@ -203,5 +205,43 @@ artistsApp.openapi(
     const albums = await getArtistAlbums(artistId, { page, sortBy, sortOrder })
 
     return ctx.json({ success: true as const, data: albums })
+  }
+)
+
+artistsApp.openapi(
+  createRoute({
+    method: 'get',
+    path: '/artists/{id}/radio',
+    tags: ['Artists'],
+    summary: `Retrieve artist radio`,
+    description:
+      "Retrieve songs from the artist's radio station. A station may currently have nothing queued, " +
+      'in which case this returns an empty list rather than an error.',
+    operationId: 'getArtistRadio',
+    request: {
+      params: z.object({ id: z.string().openapi({ example: '1274170', default: '1274170' }) }),
+      query: z.object({
+        limit: z.string().pipe(z.coerce.number()).optional().openapi({ example: '10', default: '10' })
+      })
+    },
+    responses: {
+      200: {
+        description: "Successful response with songs from the artist's radio station",
+        content: {
+          'application/json': {
+            schema: z.object({ success: z.boolean().openapi({ example: true }), data: z.array(SongSchema) })
+          }
+        }
+      },
+      404: { description: 'Artist not found for the given ID' }
+    }
+  }),
+  async (ctx) => {
+    const artistId = ctx.req.param('id')
+    const { limit = 10 } = ctx.req.valid('query')
+
+    const songs = await getArtistRadio(artistId, limit)
+
+    return ctx.json({ success: true as const, data: songs })
   }
 )

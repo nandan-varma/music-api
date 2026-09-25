@@ -2,7 +2,9 @@ import { OpenAPIHono } from '@hono/zod-openapi'
 import { apiReference } from '@scalar/hono-api-reference'
 import { albumsApp } from '#modules/albums/albums.routes'
 import { artistsApp } from '#modules/artists/artists.routes'
+import { chartsApp } from '#modules/charts/charts.routes'
 import { playlistsApp } from '#modules/playlists/playlists.routes'
+import { radioApp } from '#modules/radio/radio.routes'
 import { searchApp } from '#modules/search/search.routes'
 import { songsApp } from '#modules/songs/songs.routes'
 import { trendingApp } from '#modules/trending/trending.routes'
@@ -12,7 +14,7 @@ import { prettyJSON } from 'hono/pretty-json'
 import { home } from './home'
 import type { HTTPException } from 'hono/http-exception'
 
-const resourceApps = [songsApp, albumsApp, artistsApp, playlistsApp, searchApp, trendingApp]
+const resourceApps = [songsApp, albumsApp, artistsApp, playlistsApp, searchApp, trendingApp, chartsApp, radioApp]
 
 export function createApp(): OpenAPIHono {
   const app = new OpenAPIHono()

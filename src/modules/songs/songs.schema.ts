@@ -92,9 +92,15 @@ export const toSong = (song: z.infer<typeof SongRawSchema>): z.infer<typeof Song
   downloadUrl: song.more_info.encrypted_media_url ? decryptMediaLinks(song.more_info.encrypted_media_url) : []
 })
 
+/**
+ * Besides `stationid`, JioSaavn keys every queued song by an opaque, unpredictable ID — `.catchall()` (not
+ * `.and(z.record(...))`) is required here because a record intersection would force `stationid` itself to
+ * match the record's value type. When the station has nothing queued, those dynamic keys are absent entirely
+ * and an `error` string appears instead, so every non-`stationid` value must tolerate that too.
+ */
 export const SongStationRawSchema = z
-  .object({ stationid: z.string() })
-  .and(z.record(z.string(), z.object({ song: SongRawSchema }).nullable()))
+  .object({ stationid: z.string(), error: z.string().optional() })
+  .catchall(z.union([z.object({ song: SongRawSchema }), z.string()]))
 
 export const LyricsRawSchema = z.object({
   lyrics: z.string(),

@@ -51,23 +51,35 @@ export async function createSongStation(songId: string): Promise<string> {
   return data.stationid
 }
 
-export async function getSongSuggestions(songId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {
-  const stationId = await createSongStation(songId)
-
+/**
+ * Pulls queued songs off any JioSaavn radio station (song suggestions, featured, or artist stations all share
+ * this same `webradio.getSong` mechanism). Stations frequently have nothing queued — that's a normal, valid
+ * empty result, not an error.
+ */
+export async function fetchStationSongs(stationId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {
   const { data, ok } = await fetchJioSaavn({
     call: JioSaavnEndpoint.songs.suggestions,
     params: { stationid: stationId, k: limit },
     context: 'android'
   })
 
-  if (!ok) throw new HTTPException(404, { message: 'no suggestions found for the given song' })
+  if (!ok) return []
 
-  const { stationid: _stationid, ...suggestions } = parseUpstream(SongStationRawSchema, data, 'webradio.getSong')
+  const {
+    stationid: _stationid,
+    error: _error,
+    ...songs
+  } = parseUpstream(SongStationRawSchema, data, 'webradio.getSong')
 
-  return Object.values(suggestions)
-    .filter((entry) => entry !== null)
+  return Object.values(songs)
+    .filter((entry): entry is { song: z.infer<typeof SongRawSchema> } => typeof entry === 'object')
     .map((entry) => toSong(entry.song))
     .slice(0, limit)
+}
+
+export async function getSongSuggestions(songId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {
+  const stationId = await createSongStation(songId)
+  return fetchStationSongs(stationId, limit)
 }
 
 export async function getSongLyrics(songId: string): Promise<z.infer<typeof LyricsSchema>> {
