@@ -14,10 +14,11 @@ export function parseUpstream<Schema extends z.ZodType>(
   const result = schema.safeParse(data)
 
   if (!result.success) {
+    const detail = result.error.issues.map((issue) => `${issue.path.join('.')} ${issue.message}`).join('; ')
+    console.error(`[validate] ✗ ${resource} failed schema validation: ${detail}`)
+    console.error(`[validate]   raw payload for ${resource}:`, JSON.stringify(data).slice(0, 2000))
     throw new HTTPException(502, {
-      message: `unexpected response shape from JioSaavn for ${resource}: ${result.error.issues
-        .map((issue) => `${issue.path.join('.')} ${issue.message}`)
-        .join('; ')}`
+      message: `unexpected response shape from JioSaavn for ${resource}: ${detail}`
     })
   }
 

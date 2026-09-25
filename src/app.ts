@@ -9,10 +9,10 @@ import { searchApp } from '#modules/search/search.routes.js'
 import { songsApp } from '#modules/songs/songs.routes.js'
 import { trendingApp } from '#modules/trending/trending.routes.js'
 import { cors } from 'hono/cors'
+import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
 import { prettyJSON } from 'hono/pretty-json'
 import { home } from './home.js'
-import type { HTTPException } from 'hono/http-exception'
 
 const resourceApps = [songsApp, albumsApp, artistsApp, playlistsApp, searchApp, trendingApp, chartsApp, radioApp]
 
@@ -39,7 +39,7 @@ export function createApp(): OpenAPIHono {
         version: '1.0.0',
         title: 'JioSaavn API',
         description: `# Introduction
-        \nJioSaavn API, accessible at [saavn.dev](https://saavn.dev), is an unofficial API that allows users to download high-quality songs from [JioSaavn](https://jiosaavn.com).
+        \nJioSaavn API, accessible at [saavn-api.nandanvarma.com](https://saavn-api.nandanvarma.com), is an unofficial API that allows users to download high-quality songs from [JioSaavn](https://jiosaavn.com).
         It offers a fast, reliable, and easy-to-use API for developers. \n`
       },
       servers: [{ url: `${protocol}//${hostname}${port ? `:${port}` : ''}`, description: 'Current environment' }]
@@ -68,11 +68,15 @@ export function createApp(): OpenAPIHono {
   )
 
   app.notFound((ctx) =>
-    ctx.json({ success: false, message: 'route not found, check docs at https://saavn.dev/docs' }, 404)
+    ctx.json({ success: false, message: 'route not found, check docs at https://saavn-api.nandanvarma.com/docs' }, 404)
   )
 
   app.onError((err, ctx) => {
     const error = err as HTTPException
+    console.error(`[app] ✗ ${ctx.req.method} ${ctx.req.path} → ${error.status || 500}: ${error.message}`)
+    if (!(err instanceof HTTPException)) {
+      console.error(err)
+    }
     return ctx.json({ success: false, message: error.message }, error.status || 500)
   })
 

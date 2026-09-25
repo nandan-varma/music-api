@@ -32,10 +32,38 @@ export async function fetchJioSaavn<T>({
   }
 
   const userAgent = USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)]
+  const start = Date.now()
+  console.info(`[jiosaavn] → ${call}`, params)
 
-  const response = await fetch(url, {
-    headers: { 'Content-Type': 'application/json', 'User-Agent': userAgent }
-  })
+  let response: Response
+  try {
+    response = await fetch(url, {
+      headers: { 'Content-Type': 'application/json', 'User-Agent': userAgent }
+    })
+  } catch (error) {
+    console.error(`[jiosaavn] ✗ ${call} network error after ${Date.now() - start}ms:`, error)
+    throw error
+  }
 
-  return { data: (await response.json()) as T, ok: response.ok }
+  const elapsed = Date.now() - start
+  const text = await response.text()
+
+  let data: T
+  try {
+    data = JSON.parse(text) as T
+  } catch {
+    console.error(
+      `[jiosaavn] ✗ ${call} returned non-JSON after ${elapsed}ms (status ${response.status}):`,
+      text.slice(0, 500)
+    )
+    throw new Error(`jiosaavn upstream returned non-JSON for ${call} (status ${response.status})`)
+  }
+
+  if (!response.ok) {
+    console.error(`[jiosaavn] ✗ ${call} status ${response.status} after ${elapsed}ms`, params)
+  } else {
+    console.info(`[jiosaavn] ← ${call} ${response.status} in ${elapsed}ms`)
+  }
+
+  return { data, ok: response.ok }
 }
