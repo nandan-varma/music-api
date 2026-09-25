@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { playlistsApp } from './playlists.routes'
-import { PlaylistSchema } from './playlists.schema'
+import { playlistsApp } from './playlists.routes.js'
+import { PlaylistSchema } from './playlists.schema.js'
 
 describe('playlists routes', () => {
   it('retrieves a playlist by featured link', async () => {

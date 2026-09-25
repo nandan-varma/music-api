@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { chartsApp } from './charts.routes'
-import { ChartSchema } from './charts.schema'
+import { chartsApp } from './charts.routes.js'
+import { ChartSchema } from './charts.schema.js'
 
 describe('charts routes', () => {
   it('retrieves the list of charts', async () => {

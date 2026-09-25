@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { searchApp } from './search.routes'
+import { searchApp } from './search.routes.js'
 import {
   SearchAlbumsSchema,
   SearchAllSchema,
   SearchArtistsSchema,
   SearchPlaylistsSchema,
   SearchSongsSchema
-} from './search.schema'
+} from './search.schema.js'
 
 describe('search routes', () => {
   it('searches everything', async () => {

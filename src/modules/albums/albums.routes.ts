@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { AlbumSchema } from './albums.schema'
-import { getAlbumById, getAlbumByLink } from './albums.service'
+import { AlbumSchema } from './albums.schema.js'
+import { getAlbumById, getAlbumByLink } from './albums.service.js'
 
 export const albumsApp = new OpenAPIHono()
 

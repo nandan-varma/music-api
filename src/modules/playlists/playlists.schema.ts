@@ -1,7 +1,13 @@
 import { z } from '@hono/zod-openapi'
-import { imageLinks } from '#lib/codecs'
-import { SongRawSchema, SongSchema, toSong } from '#modules/songs/songs.schema'
-import { ArtistCreditRawSchema, ArtistCreditSchema, emptyableArray, LinkSchema, toArtistCredit } from '#schemas/common'
+import { imageLinks } from '#lib/codecs.js'
+import { SongRawSchema, SongSchema, toSong } from '#modules/songs/songs.schema.js'
+import {
+  ArtistCreditRawSchema,
+  ArtistCreditSchema,
+  emptyableArray,
+  LinkSchema,
+  toArtistCredit
+} from '#schemas/common.js'
 
 export const PlaylistRawSchema = z.object({
   id: z.string(),

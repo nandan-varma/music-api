@@ -5,8 +5,8 @@ import {
   SearchArtistsSchema,
   SearchPlaylistsSchema,
   SearchSongsSchema
-} from './search.schema'
-import { searchAlbums, searchAll, searchArtists, searchPlaylists, searchSongs } from './search.service'
+} from './search.schema.js'
+import { searchAlbums, searchAll, searchArtists, searchPlaylists, searchSongs } from './search.service.js'
 
 export const searchApp = new OpenAPIHono()
 

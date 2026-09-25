@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { ChartSchema } from './charts.schema'
-import { getCharts } from './charts.service'
+import { ChartSchema } from './charts.schema.js'
+import { getCharts } from './charts.service.js'
 
 export const chartsApp = new OpenAPIHono()
 

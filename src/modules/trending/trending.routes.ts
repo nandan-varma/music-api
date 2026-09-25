@@ -1,8 +1,8 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { AlbumSchema } from '#modules/albums/albums.schema'
-import { PlaylistSchema } from '#modules/playlists/playlists.schema'
-import { SongSchema } from '#modules/songs/songs.schema'
-import { getTrending } from './trending.service'
+import { AlbumSchema } from '#modules/albums/albums.schema.js'
+import { PlaylistSchema } from '#modules/playlists/playlists.schema.js'
+import { SongSchema } from '#modules/songs/songs.schema.js'
+import { getTrending } from './trending.service.js'
 
 export const trendingApp = new OpenAPIHono()
 

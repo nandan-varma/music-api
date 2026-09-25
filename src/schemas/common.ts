@@ -1,5 +1,5 @@
 import { z } from '@hono/zod-openapi'
-import { imageLinks } from '#lib/codecs'
+import { imageLinks } from '#lib/codecs.js'
 
 /**
  * JioSaavn represents an empty list as `""` instead of `[]` in several places (e.g. an album/playlist's `list`

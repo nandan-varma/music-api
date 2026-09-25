@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { albumsApp } from './albums.routes'
-import { AlbumSchema } from './albums.schema'
+import { albumsApp } from './albums.routes.js'
+import { AlbumSchema } from './albums.schema.js'
 
 describe('albums routes', () => {
   it('retrieves an album by link', async () => {

@@ -1,8 +1,8 @@
 import { z } from '@hono/zod-openapi'
-import { imageLinks } from '#lib/codecs'
-import { AlbumRawSchema, AlbumSchema, toAlbum } from '#modules/albums/albums.schema'
-import { SongRawSchema, SongSchema, toSong } from '#modules/songs/songs.schema'
-import { LinkSchema } from '#schemas/common'
+import { imageLinks } from '#lib/codecs.js'
+import { AlbumRawSchema, AlbumSchema, toAlbum } from '#modules/albums/albums.schema.js'
+import { SongRawSchema, SongSchema, toSong } from '#modules/songs/songs.schema.js'
+import { LinkSchema } from '#schemas/common.js'
 
 const ArtistBioEntrySchema = z.object({
   text: z.string().nullable(),

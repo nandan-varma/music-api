@@ -1,6 +1,6 @@
-import { SongSchema } from '#modules/songs/songs.schema'
+import { SongSchema } from '#modules/songs/songs.schema.js'
 import { describe, expect, it } from 'vitest'
-import { trendingApp } from './trending.routes'
+import { trendingApp } from './trending.routes.js'
 
 describe('trending routes', () => {
   it('retrieves trending songs for a language', async () => {

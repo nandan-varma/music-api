@@ -1,8 +1,8 @@
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { parseUpstream } from '#lib/validate'
-import { toSong } from '#modules/songs/songs.schema'
-import { toArtistCredit } from '#schemas/common'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { parseUpstream } from '#lib/validate.js'
+import { toSong } from '#modules/songs/songs.schema.js'
+import { toArtistCredit } from '#schemas/common.js'
 import {
   SearchAlbumsRawSchema,
   SearchAllRawSchema,
@@ -17,7 +17,7 @@ import {
   type SearchArtistsSchema,
   type SearchPlaylistsSchema,
   type SearchSongsSchema
-} from './search.schema'
+} from './search.schema.js'
 import type { z } from '@hono/zod-openapi'
 
 interface Pagination {

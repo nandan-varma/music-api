@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { LyricsSchema, SongSchema } from './songs.schema'
-import { getSongByLink, getSongLyrics, getSongsByIds, getSongSuggestions } from './songs.service'
+import { LyricsSchema, SongSchema } from './songs.schema.js'
+import { getSongByLink, getSongLyrics, getSongsByIds, getSongSuggestions } from './songs.service.js'
 
 export const songsApp = new OpenAPIHono()
 

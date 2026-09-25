@@ -1,8 +1,8 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { getArtistRadio } from '#modules/radio/radio.service'
-import { SongSchema } from '#modules/songs/songs.schema'
-import { ArtistAlbumsSchema, ArtistSchema, ArtistSongsSchema } from './artists.schema'
-import { getArtistAlbums, getArtistById, getArtistByLink, getArtistSongs } from './artists.service'
+import { getArtistRadio } from '#modules/radio/radio.service.js'
+import { SongSchema } from '#modules/songs/songs.schema.js'
+import { ArtistAlbumsSchema, ArtistSchema, ArtistSongsSchema } from './artists.schema.js'
+import { getArtistAlbums, getArtistById, getArtistByLink, getArtistSongs } from './artists.service.js'
 
 export const artistsApp = new OpenAPIHono()
 

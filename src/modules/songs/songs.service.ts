@@ -1,7 +1,7 @@
 import { z } from '@hono/zod-openapi'
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { parseUpstream } from '#lib/validate'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { parseUpstream } from '#lib/validate.js'
 import { HTTPException } from 'hono/http-exception'
 import {
   LyricsRawSchema,
@@ -11,7 +11,7 @@ import {
   toSong,
   type LyricsSchema,
   type SongSchema
-} from './songs.schema'
+} from './songs.schema.js'
 
 const SongsByIdRawSchema = z.object({ songs: z.array(SongRawSchema).default([]) })
 

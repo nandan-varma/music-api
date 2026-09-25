@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { PlaylistSchema } from './playlists.schema'
-import { getPlaylistById, getPlaylistByLink } from './playlists.service'
+import { PlaylistSchema } from './playlists.schema.js'
+import { getPlaylistById, getPlaylistByLink } from './playlists.service.js'
 
 export const playlistsApp = new OpenAPIHono()
 

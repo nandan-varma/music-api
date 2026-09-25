@@ -1,6 +1,6 @@
 import { z } from '@hono/zod-openapi'
-import { decryptMediaLinks, imageLinks } from '#lib/codecs'
-import { ArtistCreditRawSchema, ArtistCreditSchema, LinkSchema, toArtistCredit } from '#schemas/common'
+import { decryptMediaLinks, imageLinks } from '#lib/codecs.js'
+import { ArtistCreditRawSchema, ArtistCreditSchema, LinkSchema, toArtistCredit } from '#schemas/common.js'
 
 /** Only the fields we actually read from `song.getDetails` / `webapi.get?type=song` — see songs.service.ts. */
 export const SongRawSchema = z.object({

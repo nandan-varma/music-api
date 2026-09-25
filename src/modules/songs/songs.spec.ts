@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { songsApp } from './songs.routes'
-import { LyricsSchema, SongSchema } from './songs.schema'
+import { songsApp } from './songs.routes.js'
+import { LyricsSchema, SongSchema } from './songs.schema.js'
 
 describe('songs routes', () => {
   it('retrieves songs by link', async () => {

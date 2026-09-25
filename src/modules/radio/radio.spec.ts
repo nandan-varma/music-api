@@ -1,6 +1,6 @@
-import { SongSchema } from '#modules/songs/songs.schema'
+import { SongSchema } from '#modules/songs/songs.schema.js'
 import { describe, expect, it } from 'vitest'
-import { radioApp } from './radio.routes'
+import { radioApp } from './radio.routes.js'
 
 describe('radio routes', () => {
   // JioSaavn's radio stations frequently have nothing queued for a freshly created station, so this only

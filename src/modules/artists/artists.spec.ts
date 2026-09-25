@@ -1,7 +1,7 @@
-import { SongSchema } from '#modules/songs/songs.schema'
+import { SongSchema } from '#modules/songs/songs.schema.js'
 import { describe, expect, it } from 'vitest'
-import { artistsApp } from './artists.routes'
-import { ArtistSchema } from './artists.schema'
+import { artistsApp } from './artists.routes.js'
+import { ArtistSchema } from './artists.schema.js'
 
 describe('artists routes', () => {
   it('retrieves an artist by link', async () => {

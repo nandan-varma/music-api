@@ -1,6 +1,6 @@
 import { z } from '@hono/zod-openapi'
-import { imageLinks } from '#lib/codecs'
-import { LinkSchema } from '#schemas/common'
+import { imageLinks } from '#lib/codecs.js'
+import { LinkSchema } from '#schemas/common.js'
 
 /** Charts are just curated playlists — fetch their contents with `GET /playlists?id={id}`. */
 export const ChartRawSchema = z.object({

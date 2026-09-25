@@ -1,10 +1,10 @@
 import { z } from '@hono/zod-openapi'
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { parseUpstream } from '#lib/validate'
-import { AlbumRawSchema, toAlbum, type AlbumSchema } from '#modules/albums/albums.schema'
-import { PlaylistRawSchema, toPlaylist, type PlaylistSchema } from '#modules/playlists/playlists.schema'
-import { SongRawSchema, toSong, type SongSchema } from '#modules/songs/songs.schema'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { parseUpstream } from '#lib/validate.js'
+import { AlbumRawSchema, toAlbum, type AlbumSchema } from '#modules/albums/albums.schema.js'
+import { PlaylistRawSchema, toPlaylist, type PlaylistSchema } from '#modules/playlists/playlists.schema.js'
+import { SongRawSchema, toSong, type SongSchema } from '#modules/songs/songs.schema.js'
 
 export type TrendingType = 'song' | 'album' | 'playlist'
 

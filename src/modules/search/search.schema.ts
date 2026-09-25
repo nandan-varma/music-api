@@ -1,7 +1,7 @@
 import { z } from '@hono/zod-openapi'
-import { imageLinks } from '#lib/codecs'
-import { SongRawSchema, SongSchema } from '#modules/songs/songs.schema'
-import { ArtistCreditRawSchema, ArtistCreditSchema, LinkSchema, toArtistCredit } from '#schemas/common'
+import { imageLinks } from '#lib/codecs.js'
+import { SongRawSchema, SongSchema } from '#modules/songs/songs.schema.js'
+import { ArtistCreditRawSchema, ArtistCreditSchema, LinkSchema, toArtistCredit } from '#schemas/common.js'
 
 const searchSection = <T extends z.ZodType>(item: T) => z.object({ results: z.array(item), position: z.number() })
 

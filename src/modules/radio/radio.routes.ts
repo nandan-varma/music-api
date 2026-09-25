@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
-import { SongSchema } from '#modules/songs/songs.schema'
-import { getFeaturedRadio } from './radio.service'
+import { SongSchema } from '#modules/songs/songs.schema.js'
+import { getFeaturedRadio } from './radio.service.js'
 
 export const radioApp = new OpenAPIHono()
 

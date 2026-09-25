@@ -1,8 +1,8 @@
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { parseUpstream } from '#lib/validate'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { parseUpstream } from '#lib/validate.js'
 import { HTTPException } from 'hono/http-exception'
-import { PlaylistRawSchema, toPlaylist, type PlaylistSchema } from './playlists.schema'
+import { PlaylistRawSchema, toPlaylist, type PlaylistSchema } from './playlists.schema.js'
 import type { z } from '@hono/zod-openapi'
 
 interface PlaylistArgs {

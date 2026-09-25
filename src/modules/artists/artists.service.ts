@@ -1,8 +1,8 @@
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { parseUpstream } from '#lib/validate'
-import { toAlbum } from '#modules/albums/albums.schema'
-import { toSong } from '#modules/songs/songs.schema'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { parseUpstream } from '#lib/validate.js'
+import { toAlbum } from '#modules/albums/albums.schema.js'
+import { toSong } from '#modules/songs/songs.schema.js'
 import { HTTPException } from 'hono/http-exception'
 import {
   ArtistAlbumsRawSchema,
@@ -12,7 +12,7 @@ import {
   type ArtistAlbumsSchema,
   type ArtistSchema,
   type ArtistSongsSchema
-} from './artists.schema'
+} from './artists.schema.js'
 import type { z } from '@hono/zod-openapi'
 
 export type ArtistSort = 'popularity' | 'latest' | 'alphabetical'

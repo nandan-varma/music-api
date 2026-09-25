@@ -1,4 +1,4 @@
-import { USER_AGENTS, type JioSaavnContext } from './constants'
+import { USER_AGENTS, type JioSaavnContext } from './constants.js'
 
 const JIOSAAVN_API_URL = 'https://www.jiosaavn.com/api.php'
 

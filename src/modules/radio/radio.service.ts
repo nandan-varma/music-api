@@ -1,10 +1,10 @@
-import { JioSaavnEndpoint } from '#lib/constants'
-import { fetchJioSaavn } from '#lib/http'
-import { getArtistById } from '#modules/artists/artists.service'
-import { fetchStationSongs } from '#modules/songs/songs.service'
+import { JioSaavnEndpoint } from '#lib/constants.js'
+import { fetchJioSaavn } from '#lib/http.js'
+import { getArtistById } from '#modules/artists/artists.service.js'
+import { fetchStationSongs } from '#modules/songs/songs.service.js'
 import { HTTPException } from 'hono/http-exception'
 import type { z } from '@hono/zod-openapi'
-import type { SongSchema } from '#modules/songs/songs.schema'
+import type { SongSchema } from '#modules/songs/songs.schema.js'
 
 async function createStation(call: string, params: Record<string, string>): Promise<string> {
   const { data, ok } = await fetchJioSaavn<{ stationid?: string }>({ call, params, context: 'android' })
