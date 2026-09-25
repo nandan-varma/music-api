@@ -68,13 +68,23 @@ export async function fetchStationSongs(stationId: string, limit: number): Promi
   const {
     stationid: _stationid,
     error: _error,
-    ...songs
+    ...entries
   } = parseUpstream(SongStationRawSchema, data, 'webradio.getSong')
 
-  return Object.values(songs)
-    .filter((entry): entry is { song: z.infer<typeof SongRawSchema> } => typeof entry === 'object')
-    .map((entry) => toSong(entry.song))
-    .slice(0, limit)
+  const songs: z.infer<typeof SongSchema>[] = []
+  for (const entry of Object.values(entries)) {
+    if (typeof entry !== 'object' || entry === null || !('song' in entry)) continue
+
+    const parsed = SongRawSchema.safeParse((entry as { song: unknown }).song)
+    if (parsed.success) {
+      songs.push(toSong(parsed.data))
+    } else {
+      const detail = parsed.error.issues.map((issue) => `${issue.path.join('.')} ${issue.message}`).join('; ')
+      console.error(`[webradio.getSong] ✗ skipping a station song that failed to parse: ${detail}`)
+    }
+  }
+
+  return songs.slice(0, limit)
 }
 
 export async function getSongSuggestions(songId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {

@@ -100,10 +100,16 @@ export const toSong = (song: z.infer<typeof SongRawSchema>): z.infer<typeof Song
  * `.and(z.record(...))`) is required here because a record intersection would force `stationid` itself to
  * match the record's value type. When the station has nothing queued, those dynamic keys are absent entirely
  * and an `error` string appears instead, so every non-`stationid` value must tolerate that too.
+ *
+ * The catchall itself is deliberately `z.unknown()` rather than validating each entry's song shape here —
+ * a batch of ~20 queued songs occasionally includes one JioSaavn returns with a shape our `SongRawSchema`
+ * doesn't fully match (seen in practice), and requiring every entry to validate meant one bad song 502'd
+ * the whole station. `fetchStationSongs` validates each entry individually instead and skips the ones that
+ * don't parse, so a station is only ever short a song or two, never a hard failure.
  */
 export const SongStationRawSchema = z
   .object({ stationid: z.string(), error: z.string().optional() })
-  .catchall(z.union([z.object({ song: SongRawSchema }), z.string()]))
+  .catchall(z.unknown())
 
 export const LyricsRawSchema = z.object({
   lyrics: z.string(),
