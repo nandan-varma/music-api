@@ -20,7 +20,10 @@ export const SongRawSchema = z.object({
     label: z.string().nullable().default(null),
     duration: z.string().nullable().default(null),
     release_date: z.string().nullable().default(null),
-    has_lyrics: z.string(),
+    // Missing entirely on the leaner song shape JioSaavn embeds as an artist's `singles` — unlike
+    // every sibling field here, it had no default, so one artist with singles could 502 the whole
+    // `/artists` response. Absent means "we don't know," which safely reads as "no lyrics."
+    has_lyrics: z.string().default('false'),
     lyrics_id: z.string().nullable().default(null),
     copyright_text: z.string().nullable().default(null),
     encrypted_media_url: z.string().nullable().default(null),
