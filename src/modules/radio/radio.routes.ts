@@ -1,8 +1,33 @@
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import { SongSchema } from '#modules/songs/songs.schema.js'
+import { FEATURED_STATIONS, StationSchema } from './radio.schema.js'
 import { getFeaturedRadio } from './radio.service.js'
 
 export const radioApp = new OpenAPIHono()
+
+radioApp.openapi(
+  createRoute({
+    method: 'get',
+    path: '/radio/stations',
+    tags: ['Radio'],
+    summary: 'List known featured radio stations',
+    description:
+      'Retrieve a curated list of known-good station names/languages to pass to GET /radio/featured. ' +
+      'JioSaavn has no endpoint that lists these itself, so this is a hand-picked set rather than the full catalog.',
+    operationId: 'getRadioStations',
+    responses: {
+      200: {
+        description: 'Successful response with the list of known stations',
+        content: {
+          'application/json': {
+            schema: z.object({ success: z.boolean().openapi({ example: true }), data: z.array(StationSchema) })
+          }
+        }
+      }
+    }
+  }),
+  (ctx) => ctx.json({ success: true as const, data: [...FEATURED_STATIONS] })
+)
 
 radioApp.openapi(
   createRoute({
