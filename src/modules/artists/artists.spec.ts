@@ -1,4 +1,3 @@
-import { SongSchema } from '#modules/songs/songs.schema.js'
 import { describe, expect, it } from 'vitest'
 import { artistsApp } from './artists.routes.js'
 import { ArtistSchema } from './artists.schema.js'
@@ -28,13 +27,5 @@ describe('artists routes', () => {
   it('requires either id or link', async () => {
     const response = await artistsApp.request('/artists')
     expect(response.status).toBe(400)
-  })
-
-  it('retrieves artist radio', async () => {
-    const response = await artistsApp.request('/artists/1274170/radio?limit=3')
-
-    expect(response.status).toBe(200)
-    const { data } = (await response.json()) as { data: unknown[] }
-    expect(() => SongSchema.array().parse(data)).not.toThrow()
   })
 })

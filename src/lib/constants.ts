@@ -14,8 +14,6 @@ export const JioSaavnEndpoint = {
     byId: 'song.getDetails',
     byLink: 'webapi.get',
     recommendations: 'reco.getreco',
-    suggestions: 'webradio.getSong',
-    station: 'webradio.createEntityStation',
     lyrics: 'lyrics.getLyrics'
   },
   albums: {
@@ -31,10 +29,6 @@ export const JioSaavnEndpoint = {
   playlists: {
     byId: 'playlist.getDetails',
     byLink: 'webapi.get'
-  },
-  radio: {
-    featured: 'webradio.createFeaturedStation',
-    artist: 'webradio.createArtistStation'
   },
   trending: 'content.getTrending',
   charts: 'content.getCharts'

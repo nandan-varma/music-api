@@ -4,7 +4,6 @@ import { albumsApp } from '#modules/albums/albums.routes.js'
 import { artistsApp } from '#modules/artists/artists.routes.js'
 import { chartsApp } from '#modules/charts/charts.routes.js'
 import { playlistsApp } from '#modules/playlists/playlists.routes.js'
-import { radioApp } from '#modules/radio/radio.routes.js'
 import { searchApp } from '#modules/search/search.routes.js'
 import { songsApp } from '#modules/songs/songs.routes.js'
 import { trendingApp } from '#modules/trending/trending.routes.js'
@@ -14,7 +13,7 @@ import { logger } from 'hono/logger'
 import { prettyJSON } from 'hono/pretty-json'
 import { home } from './home.js'
 
-const resourceApps = [songsApp, albumsApp, artistsApp, playlistsApp, searchApp, trendingApp, chartsApp, radioApp]
+const resourceApps = [songsApp, albumsApp, artistsApp, playlistsApp, searchApp, trendingApp, chartsApp]
 
 export function createApp(): OpenAPIHono {
   const app = new OpenAPIHono()

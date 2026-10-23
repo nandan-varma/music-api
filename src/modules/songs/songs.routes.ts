@@ -129,8 +129,7 @@ songsApp.openapi(
             })
           }
         }
-      },
-      404: { description: 'No suggestions found for the given song' }
+      }
     }
   }),
   async (ctx) => {
