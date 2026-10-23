@@ -20,6 +20,8 @@ import {
 } from './search.schema.js'
 import type { z } from '@hono/zod-openapi'
 
+/** JioSaavn's `p` is 1-indexed and `p=0` returns a differently ordered, offset result set — our public API's
+ * `page` is 0-indexed like every other paginated endpoint here, so it is offset by one before the upstream call. */
 interface Pagination {
   page: number
   limit: number
@@ -35,10 +37,13 @@ export async function searchSongs({
   page,
   limit
 }: { query: string } & Pagination): Promise<z.infer<typeof SearchSongsSchema>> {
-  const { data } = await fetchJioSaavn({ call: JioSaavnEndpoint.search.songs, params: { q: query, p: page, n: limit } })
+  const { data } = await fetchJioSaavn({
+    call: JioSaavnEndpoint.search.songs,
+    params: { q: query, p: page + 1, n: limit }
+  })
   const result = parseUpstream(SearchSongsRawSchema, data, JioSaavnEndpoint.search.songs)
 
-  return { total: result.total, start: result.start, results: result.results.map(toSong) }
+  return { total: result.total, start: page * limit, results: result.results.map(toSong) }
 }
 
 export async function searchAlbums({
@@ -48,11 +53,11 @@ export async function searchAlbums({
 }: { query: string } & Pagination): Promise<z.infer<typeof SearchAlbumsSchema>> {
   const { data } = await fetchJioSaavn({
     call: JioSaavnEndpoint.search.albums,
-    params: { q: query, p: page, n: limit }
+    params: { q: query, p: page + 1, n: limit }
   })
   const result = parseUpstream(SearchAlbumsRawSchema, data, JioSaavnEndpoint.search.albums)
 
-  return { total: result.total, start: result.start, results: result.results.map(toSearchAlbum) }
+  return { total: result.total, start: page * limit, results: result.results.map(toSearchAlbum) }
 }
 
 export async function searchArtists({
@@ -62,11 +67,11 @@ export async function searchArtists({
 }: { query: string } & Pagination): Promise<z.infer<typeof SearchArtistsSchema>> {
   const { data } = await fetchJioSaavn({
     call: JioSaavnEndpoint.search.artists,
-    params: { q: query, p: page, n: limit }
+    params: { q: query, p: page + 1, n: limit }
   })
   const result = parseUpstream(SearchArtistsRawSchema, data, JioSaavnEndpoint.search.artists)
 
-  return { total: result.total, start: result.start, results: result.results.map(toArtistCredit) }
+  return { total: result.total, start: page * limit, results: result.results.map(toArtistCredit) }
 }
 
 export async function searchPlaylists({
@@ -76,9 +81,9 @@ export async function searchPlaylists({
 }: { query: string } & Pagination): Promise<z.infer<typeof SearchPlaylistsSchema>> {
   const { data } = await fetchJioSaavn({
     call: JioSaavnEndpoint.search.playlists,
-    params: { q: query, p: page, n: limit }
+    params: { q: query, p: page + 1, n: limit }
   })
   const result = parseUpstream(SearchPlaylistsRawSchema, data, JioSaavnEndpoint.search.playlists)
 
-  return { total: result.total, start: result.start, results: result.results.map(toSearchPlaylist) }
+  return { total: result.total, start: page * limit, results: result.results.map(toSearchPlaylist) }
 }

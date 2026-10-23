@@ -43,4 +43,16 @@ describe('search routes', () => {
     const { data } = (await response.json()) as { data: unknown }
     expect(() => SearchPlaylistsSchema.parse(data)).not.toThrow()
   })
+
+  it('paginates from page 0 with a zero-based start offset', async () => {
+    const first = await searchApp.request('/search/songs?query=love&page=0&limit=5')
+    const second = await searchApp.request('/search/songs?query=love&page=1&limit=5')
+    const firstPage = ((await first.json()) as { data: { start: number; results: { id: string }[] } }).data
+    const secondPage = ((await second.json()) as { data: { start: number; results: { id: string }[] } }).data
+
+    expect(firstPage.start).toBe(0)
+    expect(secondPage.start).toBe(5)
+    expect(firstPage.results).toHaveLength(5)
+    expect(secondPage.results.length).toBeGreaterThan(0)
+  })
 })

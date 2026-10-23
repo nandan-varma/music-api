@@ -51,6 +51,21 @@ export async function createSongStation(songId: string): Promise<string> {
   return data.stationid
 }
 
+/** Validates each entry on its own and skips the ones that don't parse, so one odd song never fails a batch. */
+function parseSongEntries(entries: unknown[], source: string): z.infer<typeof SongSchema>[] {
+  const songs: z.infer<typeof SongSchema>[] = []
+  for (const entry of entries) {
+    const parsed = SongRawSchema.safeParse(entry)
+    if (parsed.success) {
+      songs.push(toSong(parsed.data))
+    } else {
+      const detail = parsed.error.issues.map((issue) => `${issue.path.join('.')} ${issue.message}`).join('; ')
+      console.error(`[${source}] ✗ skipping a song that failed to parse: ${detail}`)
+    }
+  }
+  return songs
+}
+
 /**
  * Pulls queued songs off any JioSaavn radio station (song suggestions, featured, or artist stations all share
  * this same `webradio.getSong` mechanism). Stations frequently have nothing queued — that's a normal, valid
@@ -71,23 +86,32 @@ export async function fetchStationSongs(stationId: string, limit: number): Promi
     ...entries
   } = parseUpstream(SongStationRawSchema, data, 'webradio.getSong')
 
-  const songs: z.infer<typeof SongSchema>[] = []
-  for (const entry of Object.values(entries)) {
-    if (typeof entry !== 'object' || entry === null || !('song' in entry)) continue
+  const queued = Object.values(entries)
+    .filter((entry): entry is { song: unknown } => typeof entry === 'object' && entry !== null && 'song' in entry)
+    .map((entry) => entry.song)
 
-    const parsed = SongRawSchema.safeParse((entry as { song: unknown }).song)
-    if (parsed.success) {
-      songs.push(toSong(parsed.data))
-    } else {
-      const detail = parsed.error.issues.map((issue) => `${issue.path.join('.')} ${issue.message}`).join('; ')
-      console.error(`[webradio.getSong] ✗ skipping a station song that failed to parse: ${detail}`)
-    }
-  }
+  return parseSongEntries(queued, 'webradio.getSong').slice(0, limit)
+}
 
-  return songs.slice(0, limit)
+/** JioSaavn's "you might also like" for a song. Unlike stations this reliably has results; it answers with
+ * an object keyed by the requested song ID. */
+export async function getSongRecommendations(songId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {
+  const { data, ok } = await fetchJioSaavn<Record<string, unknown>>({
+    call: JioSaavnEndpoint.songs.recommendations,
+    params: { pid: songId },
+    context: 'android'
+  })
+
+  const entries = ok && typeof data === 'object' && data !== null ? data[songId] : undefined
+  if (!Array.isArray(entries)) return []
+
+  return parseSongEntries(entries, 'reco.getreco').slice(0, limit)
 }
 
 export async function getSongSuggestions(songId: string, limit: number): Promise<z.infer<typeof SongSchema>[]> {
+  const recommendations = await getSongRecommendations(songId, limit)
+  if (recommendations.length > 0) return recommendations
+
   const stationId = await createSongStation(songId)
   return fetchStationSongs(stationId, limit)
 }

@@ -13,6 +13,7 @@ export const JioSaavnEndpoint = {
   songs: {
     byId: 'song.getDetails',
     byLink: 'webapi.get',
+    recommendations: 'reco.getreco',
     suggestions: 'webradio.getSong',
     station: 'webradio.createEntityStation',
     lyrics: 'lyrics.getLyrics'

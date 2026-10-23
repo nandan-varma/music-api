@@ -17,4 +17,12 @@ describe('radio routes', () => {
     const response = await radioApp.request('/radio/featured?name=Bollywood+Butter')
     expect(response.status).toBe(400)
   })
+
+  // The station is usually empty, so a featured station falls back to a matching playlist and never comes back blank.
+  it('falls back to a playlist when the featured station is empty', async () => {
+    const response = await radioApp.request('/radio/featured?name=Bollywood+Butter&language=hindi&limit=5')
+
+    const { data } = (await response.json()) as { data: unknown[] }
+    expect(data.length).toBeGreaterThan(0)
+  })
 })

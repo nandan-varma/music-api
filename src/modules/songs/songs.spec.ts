@@ -33,4 +33,13 @@ describe('songs routes', () => {
     const response = await songsApp.request('/songs/doesnotexist999/lyrics')
     expect(response.status).toBe(404)
   })
+
+  it('returns recommended songs for a song', async () => {
+    const response = await songsApp.request('/songs/aRZbUYD7/suggestions?limit=5')
+
+    expect(response.status).toBe(200)
+    const { data } = (await response.json()) as { data: unknown[] }
+    expect(() => SongSchema.array().parse(data)).not.toThrow()
+    expect(data.length).toBeGreaterThan(0)
+  })
 })
